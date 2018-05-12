@@ -70,6 +70,9 @@ sudo apt-get install dialog
  systemctl enable srv1cv83
  systemctl start srv1cv83
  systemctl status srv1cv83
+ 
+ apt-get install -y imagemagick-6.q16:i386
+ apt-get install -y imagemagick:i386
  ;;
  
  8) 
