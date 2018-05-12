@@ -88,7 +88,7 @@ sudo apt-get install dialog
  systemctl enable postgresql
  systemctl start postgresql
 
- -u postgres psql postgres
+ sudo -u postgres psql postgres
  
  esac
  done
