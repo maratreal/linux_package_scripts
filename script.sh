@@ -16,6 +16,9 @@ sudo apt-get install dialog
  3 "open ssh-client" off
  4 "vsftpd" off
  5 "open-vm-tools-desktop" off
+ 6 "dante Server" off
+ 7 "1c" off
+ 8 "postgres" off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -47,7 +50,47 @@ sudo apt-get install dialog
  echo "Installing open-vm-tools-desktop"
  apt install open-vm-tools-desktop -y
  ;;
+ 
+6) 
+ echo "Installing dante-server"
+ apt install dante-server -y
+ ;;
+ 
+7) 
+ echo "Installing 1c"
+ tar -xvf 1c.tar.gz && rm 1c.tar.gz
+ cd server
+ dpkg -i *.deb
+ dpkg -i 1c-enterprise83-client-nls_*.deb
+ apt-get -y install imagemagick-6.q16:i386 imagemagick:i386
+ apt-get -f -y install
+ apt-get -y install unixodbc libgsf-bin t1utils ttf-mscorefonts-installer
+ chown -R usr1cv8:grp1cv8 /opt/1C
+ yes | cp -i backbas.so /opt/1C/v8.3/i386
+ systemctl enable srv1cv83
+ systemctl start srv1cv83
+ systemctl status srv1cv83
+ ;;
+ 
+ 8) 
+ echo "Installing postgres"
+ locale -a
+ locale-gen ru_RU.UTF-8
+ dpkg-reconfigure locales
 
+ sh -c 'echo "deb http://1c.postgrespro.ru/deb/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/postgrespro-1c.list'
+ wget --quiet -O - http://1c.postgrespro.ru/keys/GPG-KEY-POSTGRESPRO-1C-92 | sudo apt-key add - && sudo apt-get update
+ apt-get -y install postgresql-pro-1c-9.6
+
+ chown -R postgres:postgres /etc/postgresql/
+ chown -R postgres:postgres /var/lib/postgresql/
+
+ systemctl enable postgresql
+ systemctl start postgresql
+
+ -u postgres psql postgres
+ 
  esac
  done
+ 
 fi
