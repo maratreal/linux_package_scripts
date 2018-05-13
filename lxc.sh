@@ -38,24 +38,16 @@ sudo apt-get install dialog
 3) 
  echo "Creating lxc 1capache"
  
- 
  lxc-create -t ubuntu -n 1capache -- -r trusty -a i386
  lxc-ls -f
  lxc-start -n 1capache -d
  lxc-info -n 1capache
  lxc-console -n 1capache
  apt-get install -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
- apt-get install -y rpl
  mkdir /1c
  mkdir /opt/1C
- shutdown -r now
- 
- lxc-start -n 1capache -d
- 
- mount --bind /1c /var/lib/lxc/1capache/rootfs/1c
- mount --bind /opt/1C /var/lib/lxc/1capache/rootfs/opt/1C
- 
-  4) 
+
+ 4) 
  echo "Editing rpaf.conf"
  
  PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installe$

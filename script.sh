@@ -116,7 +116,7 @@ fi
  /opt/1C/v8.3/i386/ras --daemon cluster
 
  sudo -u postgres psql postgres
- 
+ ;;
  9) 
  echo "Installing LXC "
  apt install lxc lxc-templates wget bridge-utils -y
