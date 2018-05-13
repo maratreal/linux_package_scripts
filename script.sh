@@ -19,6 +19,7 @@ sudo apt-get install dialog
  6 "dante Server" off
  7 "1c" off
  8 "postgres" off
+ 9 "LXC" off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -115,6 +116,14 @@ fi
  /opt/1C/v8.3/i386/ras --daemon cluster
 
  sudo -u postgres psql postgres
+ 
+ 9) 
+ echo "Installing LXC "
+ apt install lxc lxc-templates wget bridge-utils -y
+ lxc-checkconfig
+ /etc/init.d/apparmor restart
+ ;;
+ 
  
  esac
  done

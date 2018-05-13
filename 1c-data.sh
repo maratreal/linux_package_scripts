@@ -120,9 +120,7 @@ sudo apt-get install dialog
  text="$(cut -d':' -f2 <<<$check)"
  cluster_uid="$(cut -d' ' -f1 <<<$text)"
  /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid summary list
-
  ;;
-
  
  esac
  done
