@@ -57,6 +57,13 @@ sudo apt-get install dialog
    sudo apt-get --force-yes --yes install rpl
  fi
  
+  PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nano mc|grep "install ok installe$
+ echo Checking for somelib: $PKG_OK
+ if [ "" == "$PKG_OK" ]; then
+   echo "No somelib. Setting up somelib."
+   sudo apt-get --force-yes --yes install nano mc
+ fi
+ 
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
  new_text="RPAFproxy_ips~"$ip 
  rpl "RPAFproxy_ips" $new_text rpaf.conf
