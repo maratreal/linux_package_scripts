@@ -37,7 +37,7 @@ sudo apt-get install dialog
  
 3) 
  echo "Creating lxc 1capache"
- 
+ apt-get -y install ca-certificates
  lxc-create -t ubuntu -n 1capache -- -r trusty -a i386
  lxc-ls -f
  lxc-start -n 1capache -d
@@ -50,21 +50,22 @@ sudo apt-get install dialog
  4) 
  echo "Editing rpaf.conf"
  
- PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installe$
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installed")
  echo Checking for somelib: $PKG_OK
  if [ "" == "$PKG_OK" ]; then
    echo "No somelib. Setting up somelib."
    sudo apt-get --force-yes --yes install rpl
  fi
  
-  PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nano mc|grep "install ok installe$
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nano mc|grep "install ok installed")
  echo Checking for somelib: $PKG_OK
  if [ "" == "$PKG_OK" ]; then
    echo "No somelib. Setting up somelib."
    sudo apt-get --force-yes --yes install nano mc
  fi
  
- ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
+ #ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
+ ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
  new_text="RPAFproxy_ips~"$ip 
  rpl "RPAFproxy_ips" $new_text /etc/apache2/mods-enabled/rpaf.conf
 
