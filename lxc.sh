@@ -11,6 +11,7 @@ sudo apt-get install dialog
  1 "Install apache2-bin" off
  2 "Configure host" off
  3 "lxc 1capache" off
+ 4 "Edit rpaf.conf"
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -44,7 +45,7 @@ sudo apt-get install dialog
  lxc-info -n 1capache
  lxc-console -n 1capache
  apt-get install -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
- 
+ apt-get install -y rpl
  mkdir /1c
  mkdir /opt/1C
  shutdown -r now
@@ -53,6 +54,23 @@ sudo apt-get install dialog
  
  mount --bind /1c /var/lib/lxc/1capache/rootfs/1c
  mount --bind /opt/1C /var/lib/lxc/1capache/rootfs/opt/1C
+ 
+  4) 
+ echo "Editing rpaf.conf"
+ 
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installe$
+ echo Checking for somelib: $PKG_OK
+ if [ "" == "$PKG_OK" ]; then
+   echo "No somelib. Setting up somelib."
+   sudo apt-get --force-yes --yes install rpl
+ fi
+ 
+ ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
+ new_text="RPAFproxy_ips~"$ip 
+ rpl "RPAFproxy_ips" $new_text rpaf.conf
+
+ rpl "#   RPAFheader X-Real-IP" "~~~~RPAFheader~X-Forwarded-For"  rpaf.conf
+ rpl "~" " "  rpaf.conf
  
  esac
  done
