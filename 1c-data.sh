@@ -2,11 +2,11 @@
 
 if [[ $EUID -ne 0 ]]; then
  echo "This script must be run as root" 
- exit 1
+exit 1
 else
  #Update and Upgrade
- echo "Updating and Upgrading"
- apt-get update && sudo apt-get upgrade -y
+ #echo "Updating and Upgrading"
+ #apt-get update && sudo apt-get upgrade -y
 
 sudo apt-get install dialog
  cmd=(dialog --separate-output --checklist "Please Select 1c options:" 22 76 16)
@@ -25,9 +25,9 @@ sudo apt-get install dialog
  case $choice in
  
 1)
- echo "Create 1c base"
- echo "server name [enter]:"
- read server
+ #echo "Create 1c base"
+ #echo "server name [enter]:"
+ #read server
 
  echo "database name [enter]:"
  read database
@@ -39,7 +39,7 @@ sudo apt-get install dialog
  text="$(cut -d':' -f2 <<<$check)"
  cluster_uid="$(cut -d' ' -f1 <<<$text)"
 
- /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid create --create-database --name=$database --dbms=PostgreSQL --db-server=$server --db-name=$database --locale=ru --db-user=postgres --db-pwd=$password
+ /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid create --create-database --name=$database --dbms=PostgreSQL --db-server=$(hostname) --db-name=$database --locale=ru --db-user=postgres --db-pwd=$password
  ;;
 
 2)
@@ -79,7 +79,6 @@ sudo apt-get install dialog
  
 4) 
  echo "Loading dt"
- echo "Loading cf"
  echo "ftp server [enter]:"
  read server
 
@@ -110,18 +109,20 @@ sudo apt-get install dialog
  
 5) 
  echo "public on web server"
- 
+ echo "database name [enter]:"
+ read database
+ /opt/1C/v8.3/i386/webinst -apache24 -wsdir $database -dir /1c/$database -connstr Srvr=$(hostname)";"Ref=$database; -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
  ;;
  
 6) 
  echo "list database"
- apt install dante-server -y
+ check=$(/opt/1C/v8.3/i386/rac cluster list)
+ text="$(cut -d':' -f2 <<<$check)"
+ cluster_uid="$(cut -d' ' -f1 <<<$text)"
+ /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid summary list
+
  ;;
- 
-6) 
- echo "list database"
- /opt/1C/v8.3/i386/rac cluster list
- ;;
+
  
  esac
  done
