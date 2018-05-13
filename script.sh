@@ -59,7 +59,7 @@ sudo apt-get install dialog
 7) 
  echo "Installing 1c"
 
-if [ ! -f 1c.tar.gz ]; then
+if [ ! -f server ]; then
     echo "ftp server [enter]:"
 	read server
 
@@ -74,7 +74,7 @@ if [ ! -f 1c.tar.gz ]; then
 fi
 
  tar -xvf 1c.tar.gz && rm 1c.tar.gz
-# cd server
+ cd server
  dpkg -i *.deb
  dpkg -i 1c-enterprise83-client-nls_*.deb
  apt-get -y install imagemagick-6.q16:i386 imagemagick:i386
