@@ -83,8 +83,8 @@ fi
  
  chown -R usr1cv8:grp1cv8 /opt/1C
  yes | cp -i backbas.so /opt/1C/v8.3/i386
- systemctl enable srv1cv83
- systemctl start srv1cv83
+
+ #/opt/1C/v8.3/i386/ras --daemon cluster
  #systemctl status srv1cv83
  
  #apt-get -y install unixodbc libgsf-bin t1utils ttf-mscorefonts-installer
@@ -109,6 +109,10 @@ fi
 
  systemctl enable postgresql
  systemctl start postgresql
+ 
+ systemctl enable srv1cv83
+ systemctl start srv1cv83	
+ /opt/1C/v8.3/i386/ras --daemon cluster
 
  sudo -u postgres psql postgres
  
