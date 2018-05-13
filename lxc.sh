@@ -66,10 +66,10 @@ sudo apt-get install dialog
  
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
  new_text="RPAFproxy_ips~"$ip 
- rpl "RPAFproxy_ips" $new_text rpaf.conf
+ rpl "RPAFproxy_ips" $new_text /etc/apache2/mods-enabled/rpaf.conf
 
- rpl "#   RPAFheader X-Real-IP" "~~~~RPAFheader~X-Forwarded-For"  rpaf.conf
- rpl "~" " "  rpaf.conf
+ rpl "#   RPAFheader X-Real-IP" "~~~~RPAFheader~X-Forwarded-For"  /etc/apache2/mods-enabled/rpaf.conf
+ rpl "~" " "  /etc/apache2/mods-enabled/rpaf.conf
  
  esac
  done
