@@ -59,7 +59,7 @@ sudo apt-get install dialog
 7) 
  echo "Installing 1c"
 
-if [ ! -f server ]; then
+if [ ! -d server ]; then
     echo "ftp server [enter]:"
 	read server
 
@@ -79,7 +79,9 @@ fi
  dpkg -i 1c-enterprise83-client-nls_*.deb
  apt-get -y install imagemagick-6.q16:i386 imagemagick:i386
  apt-get -f -y install
- apt-get -y install unixodbc libgsf-bin t1utils ttf-mscorefonts-installer
+ #apt-get -y install unixodbc libgsf-bin t1utils ttf-mscorefonts-installer
+ apt-get -y install ttf-mscorefonts-installer
+ 
  chown -R usr1cv8:grp1cv8 /opt/1C
  yes | cp -i backbas.so /opt/1C/v8.3/i386
  systemctl enable srv1cv83
