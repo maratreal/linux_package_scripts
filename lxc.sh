@@ -40,32 +40,27 @@ sudo apt-get install dialog
    sudo apt-get --force-yes --yes install apache2-bin
  fi
  
- if [ ! -d 1c ]; then
+ if [ ! -d /1c ]; then
   sudo mkdir /1c
   sudo chmod 777 /1c
  fi
 
- $database = "eng"
- /opt/1C/v8.3/i386/webinst -apache24 -wsdir $database -dir /1c/$database -connstr Srvr=$(hostname)";"Ref=$database; -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
+sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr="$(hostname)";Ref=eng;" -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
+ 
  ;;
 
  3) 
  echo "Configure LXC"
  
- PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2-bin|grep "install ok installed")
- echo Checking for somelib: $PKG_OK
- if [ "" == "$PKG_OK" ]; then
-   echo "No somelib. Setting up somelib."
-   sudo apt-get --force-yes --yes -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
+ if [ ! -d /1c ]; then
+  mkdir /1c
+  mkdir /opt/1C
  fi
  
+ apt-get --force-yes --yes install nano mc
+ sudo apt-get --force-yes --yes install rpl
+ sudo apt-get install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
  
- PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nano mc|grep "install ok installed")
- echo Checking for somelib: $PKG_OK
- if [ "" == "$PKG_OK" ]; then
-   echo "No somelib. Setting up somelib."
-   sudo apt-get --force-yes --yes install nano mc
- fi
  
  #ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
