@@ -79,21 +79,15 @@ fi
  cd server
  dpkg -i *.deb
  dpkg -i 1c-enterprise83-client-nls_*.deb
- apt-get -y install imagemagick-6.q16:i386 imagemagick:i386
+ apt-get -y    install imagemagick-6.q16:i386 imagemagick:i386
  apt-get -f -y install
- apt-get -y install ttf-mscorefonts-installer
+ apt-get -y    install ttf-mscorefonts-installer
+ apt-get -y    install --reinstall ttf-mscorefonts-installer
  
  chown -R usr1cv8:grp1cv8 /opt/1C
  yes | cp -i backbas.so /opt/1C/v8.3/i386
 
- #/opt/1C/v8.3/i386/ras --daemon cluster
- #systemctl status srv1cv83
- 
- #apt-get -y install unixodbc libgsf-bin t1utils ttf-mscorefonts-installer
- #apt-get install -y imagemagick-6.q16:i386
- #apt-get install -y imagemagick:i386
- # cd ..
- # rm -rf server && rm 1c.tar.gz
+
  ;;
  
  8) 
@@ -127,7 +121,7 @@ fi
  
  10) 
  echo "Installing vncserver"
- sudo apt-get install vnc4server
+ sudo apt -y install vnc4server
  ;; 
  
  esac
