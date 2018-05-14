@@ -27,7 +27,6 @@ sudo apt-get install dialog
  lxc-start -n 1capache -d
  lxc-info -n 1capache
  lxc-console -n 1capache
- 
  ;;
  
 2) 
@@ -45,11 +44,10 @@ sudo apt-get install dialog
   sudo chmod 777 /1c
  fi
 
-sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr="$(hostname)";Ref=eng;" -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
- 
+ sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr="$(hostname)";Ref=eng;" -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
  ;;
 
- 3) 
+3) 
  echo "Configure LXC"
  
  if [ ! -d /1c ]; then
@@ -61,8 +59,6 @@ sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr=
  sudo apt-get --force-yes --yes install rpl
  sudo apt-get install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
  
- 
- #ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
  new_text="RPAFproxy_ips~"$ip 
  cp -i /etc/apache2/mods-enabled/rpaf.conf rpaf.conf
@@ -74,7 +70,7 @@ sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr=
  cp -i rpaf.conf /etc/apache2/mods-enabled/rpaf.conf
  ;;
 
- 4) 
+4) 
  echo "HOST bind directories"
  mount --bind /1c /var/lib/lxc/1capache/rootfs/1c
  mount --bind /opt/1C /var/lib/lxc/1capache/rootfs/opt/1C
