@@ -20,6 +20,7 @@ sudo apt-get install dialog
  7 "1c" off
  8 "postgres" off
  9 "LXC" off
+ 10 "vncserver" off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -124,6 +125,10 @@ fi
  /etc/init.d/apparmor restart
  ;;
  
+ 10) 
+ echo "Installing vncserver"
+ sudo apt-get install vnc4server
+ ;; 
  
  esac
  done
