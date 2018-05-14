@@ -43,7 +43,10 @@ sudo apt-get install dialog
   sudo mkdir /1c
   sudo chmod 777 /1c
  fi
-
+ 
+ mount --bind /1c /var/lib/lxc/1capache/rootfs/1c
+ mount --bind /opt/1C /var/lib/lxc/1capache/rootfs/opt/1C
+ 
  sudo /opt/1C/v8.3/i386/webinst -apache24 -wsdir eng -dir /1c/eng -connstr "Srvr="$(hostname)";Ref=eng;" -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
  ;;
 
@@ -55,9 +58,9 @@ sudo apt-get install dialog
   mkdir /opt/1C
  fi
  
- apt-get --force-yes --yes install nano mc
- sudo apt-get --force-yes --yes install rpl
- sudo apt-get install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
+ apt-get -y --force-yes --yes install nano mc
+ sudo apt-ge -y t --force-yes --yes install rpl
+ sudo apt-get -y install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
  
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
  new_text="RPAFproxy_ips~"$ip 
@@ -68,6 +71,7 @@ sudo apt-get install dialog
  rpl "~" " "  rpaf.conf
  
  cp -i rpaf.conf /etc/apache2/mods-enabled/rpaf.conf
+ rm rpaf.conf
  ;;
 
 4) 
