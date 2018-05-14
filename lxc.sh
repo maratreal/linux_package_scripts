@@ -9,9 +9,10 @@ sudo apt-get install dialog
  cmd=(dialog --separate-output --checklist "Please Select lxc options:" 22 76 16)
  options=(
  1 "Install apache2-bin" off
- 2 "Configure host" off
- 3 "lxc 1capache" off
- 4 "Edit rpaf.conf"
+ 2 "Configure host"      off
+ 3 "Install lxc 1capache"        off
+ 4 "Install apache2 praf mod" off
+ 5 "Edit rpaf.conf"      off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -43,11 +44,18 @@ sudo apt-get install dialog
  lxc-start -n 1capache -d
  lxc-info -n 1capache
  lxc-console -n 1capache
- apt-get install -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
+ 
  mkdir /1c
  mkdir /opt/1C
+;;
+
 
  4) 
+ echo "Install apache2 praf mod"
+ apt-get install -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
+ ;;
+ 
+ 5) 
  echo "Editing rpaf.conf"
  
  PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installed")
@@ -67,10 +75,13 @@ sudo apt-get install dialog
  #ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]$
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
  new_text="RPAFproxy_ips~"$ip 
- rpl "RPAFproxy_ips" $new_text /etc/apache2/mods-enabled/rpaf.conf
+ cp -i /etc/apache2/mods-enabled/rpaf.conf rpaf.conf
+ rpl "RPAFproxy_ips" $new_text rpaf.conf
 
- rpl "#   RPAFheader X-Real-IP" "~~~~RPAFheader~X-Forwarded-For"  /etc/apache2/mods-enabled/rpaf.conf
- rpl "~" " "  /etc/apache2/mods-enabled/rpaf.conf
+ rpl "#   RPAFheader X-Real-IP" "~~~~RPAFheader~X-Forwarded-For" rpaf.conf
+ rpl "~" " "  rpaf.conf
+ 
+ cp -i rpaf.conf /etc/apache2/mods-enabled/rpaf.conf
  
  esac
  done
