@@ -8,11 +8,10 @@ else
 sudo apt-get install dialog
  cmd=(dialog --separate-output --checklist "Please Select lxc options:" 22 76 16)
  options=(
- 1 "Install apache2-bin" off
- 2 "Configure host"      off
- 3 "Install lxc 1capache"        off
- 4 "Install apache2 praf mod" off
- 5 "Edit rpaf.conf"      off
+ 1 "HOST Install lxc 1capache" off
+ 2 "Configure host" off
+ 3 "Configure LXC" off
+ 4 "HOST bind directories" off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -21,22 +20,6 @@ sudo apt-get install dialog
  case $choice in
  
 1) 
- echo "Installing apache2-bin"
- apt-get -y install apache2-bin
- ;;
- 
-2) 
- echo "Configuring host"
- 
- sudo mkdir /1c
- sudo chmod 777 /1c
-  
- $database = "eng"
- /opt/1C/v8.3/i386/webinst -apache24 -wsdir $database -dir /1c/$database -connstr Srvr=$(hostname)";"Ref=$database; -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
- 
- ;;
- 
-3) 
  echo "Creating lxc 1capache"
  apt-get -y install ca-certificates
  lxc-create -t ubuntu -n 1capache -- -r trusty -a i386
@@ -45,25 +28,37 @@ sudo apt-get install dialog
  lxc-info -n 1capache
  lxc-console -n 1capache
  
- mkdir /1c
- mkdir /opt/1C
-;;
-
-
- 4) 
- echo "Install apache2 praf mod"
- apt-get install -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
  ;;
  
- 5) 
- echo "Editing rpaf.conf"
+2) 
+ echo "Configuring host"
  
- PKG_OK=$(dpkg-query -W --showformat='${Status}\n' rpl|grep "install ok installed")
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2-bin|grep "install ok installed")
  echo Checking for somelib: $PKG_OK
  if [ "" == "$PKG_OK" ]; then
    echo "No somelib. Setting up somelib."
-   sudo apt-get --force-yes --yes install rpl
+   sudo apt-get --force-yes --yes install apache2-bin
  fi
+ 
+ if [ ! -d 1c ]; then
+  sudo mkdir /1c
+  sudo chmod 777 /1c
+ fi
+
+ $database = "eng"
+ /opt/1C/v8.3/i386/webinst -apache24 -wsdir $database -dir /1c/$database -connstr Srvr=$(hostname)";"Ref=$database; -confPath /var/lib/lxc/1capache/rootfs/etc/apache2/apache2.conf
+ ;;
+
+ 3) 
+ echo "Configure LXC"
+ 
+ PKG_OK=$(dpkg-query -W --showformat='${Status}\n' apache2-bin|grep "install ok installed")
+ echo Checking for somelib: $PKG_OK
+ if [ "" == "$PKG_OK" ]; then
+   echo "No somelib. Setting up somelib."
+   sudo apt-get --force-yes --yes -y apache2 apache2-bin apache2-data libapache2-mod-rpaf
+ fi
+ 
  
  PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nano mc|grep "install ok installed")
  echo Checking for somelib: $PKG_OK
@@ -82,6 +77,12 @@ sudo apt-get install dialog
  rpl "~" " "  rpaf.conf
  
  cp -i rpaf.conf /etc/apache2/mods-enabled/rpaf.conf
+ ;;
+
+ 4) 
+ echo "HOST bind directories"
+ mount --bind /1c /var/lib/lxc/1capache/rootfs/1c
+ mount --bind /opt/1C /var/lib/lxc/1capache/rootfs/opt/1C
  
  esac
  done
