@@ -79,11 +79,13 @@ fi
  cd server
  dpkg -i *.deb
  dpkg -i 1c-enterprise83-client-nls_*.deb
- apt-get -y    install imagemagick-6.q16:i386 imagemagick:i386
  apt-get -f -y install
  apt-get -y    install ttf-mscorefonts-installer
  apt-get -y    install --reinstall ttf-mscorefonts-installer
  
+ apt-get -y install imagemagick-6.q16:i386
+ apt-get -y install imagemagick:i386
+
  chown -R usr1cv8:grp1cv8 /opt/1C
 
  systemctl enable srv1cv83
@@ -106,14 +108,19 @@ fi
  chown -R postgres:postgres /etc/postgresql/
  chown -R postgres:postgres /var/lib/postgresql/
 
- systemctl enable postgresql
- systemctl start postgresql
+ sudo systemctl enable postgresql
+ sudo systemctl start postgresql
  
- systemctl enable srv1cv83
- systemctl start srv1cv83	
+ sudo systemctl enable srv1cv83
+ sudo systemctl start srv1cv83	
  /opt/1C/v8.3/i386/ras --daemon cluster
 
  sudo -u postgres psql postgres
+ 
+ #sudo systemctl restart postgresql
+ #sudo systemctl restart srv1cv83	
+ #sudo /opt/1C/v8.3/i386/ras --daemon cluster 
+ 
  ;;
  9) 
  echo "Installing LXC "
