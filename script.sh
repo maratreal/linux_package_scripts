@@ -85,9 +85,12 @@ fi
  apt-get -y    install --reinstall ttf-mscorefonts-installer
  
  chown -R usr1cv8:grp1cv8 /opt/1C
+
+ systemctl enable srv1cv83
+ systemctl stop srv1cv83
+
  yes | cp -i backbas.so /opt/1C/v8.3/i386
-
-
+ 
  ;;
  
  8) 
