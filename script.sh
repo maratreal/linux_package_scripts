@@ -77,8 +77,8 @@ fi
 
  tar -xvf 1c.tar.gz && rm 1c.tar.gz
  cd server
- dpkg -i --force-architecture *.deb
- dpkg -i --force-architecture 1c-enterprise83-client-nls_*.deb
+ dpkg -i *.deb
+ dpkg -i 1c-enterprise83-client-nls_*.deb
  apt-get -f -y install
  apt-get -y    install ttf-mscorefonts-installer
  apt-get -y    install --reinstall ttf-mscorefonts-installer
