@@ -39,7 +39,7 @@ sudo apt-get install dialog
  text="$(cut -d':' -f2 <<<$check)"
  cluster_uid="$(cut -d' ' -f1 <<<$text)"
 
- /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid create --create-database --name=$database --dbms=PostgreSQL --db-server=$(hostname) --db-name=$database --locale=ru --db-user=postgres --db-pwd=$password
+ /opt/1C/v8.3/i386/rac infobase --cluster=$cluster_uid create --create-database --name=$database --dbms=PostgreSQL --db-server=$(hostname) --db-name=$database --locale=ru --db-user=postgres --db-pwd=$password --license-distribution=allow
  ;;
 
 2)
