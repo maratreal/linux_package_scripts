@@ -59,7 +59,7 @@ sudo apt-get install dialog
  fi
  
  apt-get -y --force-yes --yes install nano mc
- sudo apt-ge -y t --force-yes --yes install rpl
+ sudo apt-get -y t --force-yes --yes install rpl
  sudo apt-get -y install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
  
  ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
