@@ -79,10 +79,10 @@ fi
  tar -xvf 1c.tar.gz && rm 1c.tar.gz
  cd server
  dpkg -i *.deb
- dpkg -i 1c-enterprise83-client-nls_*.deb
  apt-get -f -y install
- apt-get -y    install ttf-mscorefonts-installer
- apt-get -y    install --reinstall ttf-mscorefonts-installer
+ dpkg -i 1c-enterprise83-client-nls_*.deb 
+ apt-get -y install ttf-mscorefonts-installer
+ #apt-get -y    install --reinstall ttf-mscorefonts-installer
  
  apt-get -y install imagemagick-6.q16:i386
  apt-get -y install imagemagick:i386
@@ -114,7 +114,7 @@ fi
  
  sudo systemctl enable srv1cv83
  sudo systemctl start srv1cv83	
- /opt/1C/v8.3/i386/ras --daemon cluster
+ sudo /opt/1C/v8.3/i386/ras --daemon cluster
 
  sudo -u postgres psql postgres
  
