@@ -7,6 +7,7 @@ else
  #Update and Upgrade
  echo "Updating and Upgrading"
  apt-get update && sudo apt-get upgrade -y
+ dpkg --add-architecture i386
 
 sudo apt-get install dialog
  cmd=(dialog --separate-output --checklist "Please Select Software you want to install:" 22 76 16)
