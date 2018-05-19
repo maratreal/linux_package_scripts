@@ -21,7 +21,8 @@ sudo apt-get install dialog
  7 "1c" off
  8 "postgres" off
  9 "LXC" off
- 10 "vncserver" off
+ 10 "Vncserver" off
+ 11 "Configure vncserver" off
  )
  choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
  clear
@@ -30,8 +31,13 @@ sudo apt-get install dialog
  case $choice in
  
 1)
- echo "Installing xfce4"
+ echo "Installing xfce4 and configure vncserver"
  apt install xfce4 xfce4-goodies tightvncserver -y
+ vncserver
+ vncserver -kill :1
+ sudo echo " " > ~./.vnc/xstartup
+ sudo echo "xrdb $HOME/.Xresources" > ~./.vnc/xstartup
+ sudo echo "startxfce4 &" > ~./.vnc/xstartup
  ;;
 
 2)
@@ -133,6 +139,17 @@ fi
  10) 
  echo "Installing vncserver"
  sudo apt -y install vnc4server
+ ;; 
+ 
+ 11) 
+ echo "Configure vncserver"
+ sudo apt-get -y install nano mc
+ sudo apt -y install vnc4server
+ vncserver
+ vncserver -kill :1
+ sudo echo " " > ~./.vnc/xstartup
+ sudo echo "xrdb $HOME/.Xresources" > ~./.vnc/xstartup
+ sudo echo "startxfce4 &" > ~./.vnc/xstartup
  ;; 
  
  esac
