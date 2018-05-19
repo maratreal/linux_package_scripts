@@ -33,11 +33,12 @@ sudo apt-get install dialog
 1)
  echo "Installing xfce4 and configure vncserver"
  apt install xfce4 xfce4-goodies tightvncserver -y
- vncserver
- vncserver -kill :1
- sudo echo " " > ~./.vnc/xstartup
- sudo echo "xrdb $HOME/.Xresources" > ~./.vnc/xstartup
- sudo echo "startxfce4 &" > ~./.vnc/xstartup
+ #vncserver
+ #vncserver -kill :1
+ #sudo touch /root/.vnc/ xstartup
+ #sudo echo " " > /root/.vnc/xstartup
+ #sudo echo "xrdb $HOME/.Xresources" > /root/.vnc/xstartup
+ #sudo echo "startxfce4 &" > /root/.vnc/xstartup
  ;;
 
 2)
