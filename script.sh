@@ -110,7 +110,7 @@ fi
  dpkg-reconfigure locales
 
  sh -c 'echo "deb http://1c.postgrespro.ru/deb/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/postgrespro-1c.list'
- wget --quiet -O - http://1c.postgrespro.ru/keys/GPG-KEY-POSTGRESPRO-1C-92 | sudo apt-key add - && sudo apt-get update
+ wget --quiet -O - http://1c.postgrespro.ru/keys/RPM-GPG-KEY-POSTGRESPRO-1C-92 | sudo apt-key add - && sudo apt-get update
  apt-get -y install postgresql-pro-1c-9.6
 
  chown -R postgres:postgres /etc/postgresql/
