@@ -59,7 +59,7 @@ sudo apt-get install dialog
  fi
  
  apt-get -y --force-yes --yes install nano mc
- apt-get -y wget 
+ sudo apt-get -y install wget 
  sudo apt-get -y install rpl
  sudo apt-get -y install apache2 apache2-bin apache2-data libapache2-mod-rpaf 
  
