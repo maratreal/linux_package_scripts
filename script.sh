@@ -87,12 +87,12 @@ fi
  cd server
  dpkg -i *.deb
  apt-get -f -y install
- dpkg -i 1c-enterprise83-client-nls_*.deb 
- apt-get -y install ttf-mscorefonts-installer
+ #dpkg -i 1c-enterprise83-client-nls_*.deb 
+ #apt-get -y install ttf-mscorefonts-installer
  #apt-get -y    install --reinstall ttf-mscorefonts-installer
  
- apt-get -y install imagemagick-6.q16:i386
- apt-get -y install imagemagick:i386
+ #apt-get -y install imagemagick-6.q16:i386
+ #apt-get -y install imagemagick:i386
 
  chown -R usr1cv8:grp1cv8 /opt/1C
 
